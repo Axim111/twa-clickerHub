@@ -24,7 +24,7 @@ export const Header = () => {
   useEffect(() => {
     const getData = async () => {
       const data: { data: any } = await axios.get(
-        'http://localhost:3000/getUserById/' + userId
+        'https://clickerhub.onrender.com/getUserById/' + userId
       )
       console.log('data', data.data)
       setUserData(data.data)
