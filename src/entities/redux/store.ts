@@ -2,11 +2,10 @@ import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './slice/counter.ts'
 
 export const store = configureStore({
-	reducer: {
-		counter: counterReducer
-	}
+  reducer: {
+    counter: counterReducer,
+  },
 })
-
 
 export type RootState = ReturnType<typeof store.getState>
 

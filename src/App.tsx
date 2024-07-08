@@ -1,21 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import {useAppSelector,useAppDispatch } from "./feature/reduxHook"
-import { decrement, increment } from './entities/redux/slice/counter.ts'
+import { telegram } from './entities/telegram/telegram.ts'
 
-const app = window.Telegram.WebApp
-console.log(app)
+// import { useAppSelector } from './feature/reduxHook'
+
+import { Header } from './components/header/header.tsx'
+import { Route, Routes, Link, Outlet } from 'react-router-dom'
+import { Profile } from './components/profile/profile.tsx'
+
 function App() {
-  const count = useAppSelector((state) => state.counter.value)
-	const dispatch = useAppDispatch()
-	const [countExammple, setCountExammple] = useState(0)
+  console.log()
+  // const count = useAppSelector((state) => state.counter.id)
+
+  telegram.setBackgroundColor('#243c5a')
+  telegram.MainButton.show()
 
   return (
-    <>
-     <button onClick={async ()=>dispatch(increment())}>{count}</button>
-    </>
+    <div>
+      {/* <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/posts/form'>User</Link>
+      </nav> */}
+      <Routes>
+        <Route
+          path=':userId'
+          element={
+            <div>
+              <Header />
+              <Outlet />
+            </div>
+          }
+        >
+          <Route index element={<Profile />} />
+        </Route>
+      </Routes>
+
+      {/* <p className='text-[--tg-theme-hint-color]'>pi</p>
+
+      <button
+        className='bg-zinc-200 mt-4 w-full'
+        onClick={async () => telegram.close()}
+      >
+        close
+      </button> */}
+    </div>
   )
 }
 
