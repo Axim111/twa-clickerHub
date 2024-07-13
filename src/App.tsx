@@ -1,13 +1,14 @@
-import { telegram } from './entities/telegram/telegram.ts'
+import { useTelegram } from './feature/telegram.ts'
 
 // import { useAppSelector } from './feature/reduxHook'
 
 import { Header } from './components/header/header.tsx'
 import { Route, Routes, Link, Outlet } from 'react-router-dom'
 import { Profile } from './components/profile/profile.tsx'
+import { UtilsWrapper } from './components/utils/utilsWrapper.tsx'
 
 function App() {
-  console.log()
+  const { telegram } = useTelegram()
   // const count = useAppSelector((state) => state.counter.id)
 
   telegram.setBackgroundColor('#243c5a')
@@ -30,6 +31,7 @@ function App() {
           }
         >
           <Route index element={<Profile />} />
+          <Route path='utils' element={<UtilsWrapper />} />
         </Route>
       </Routes>
 

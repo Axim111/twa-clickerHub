@@ -1,16 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-export interface userState {
-  login: number | null
-  username: number | string | null
-  role: string | null
-  notice: boolean | null
-  createdAt: string | null
-  scoreMoney: number | null
-  scoreSpinning: number | null
-}
+import { IUserState } from '../../type/user'
 
-const initialState: userState = {
+export const initialStateUser: IUserState = {
   login: null,
   username: null,
   role: null,
@@ -20,11 +12,11 @@ const initialState: userState = {
   scoreSpinning: null,
 }
 
-export const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
+export const userSlice = createSlice({
+  name: 'userSlice',
+  initialState: initialStateUser,
   reducers: {
-    setUser: (state, action: PayloadAction<userState>) => {
+    setUser: (state, action: PayloadAction<IUserState>) => {
       state.login = action.payload.login
       state.username = action.payload.username
       state.role = action.payload.role
@@ -38,6 +30,6 @@ export const counterSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 
-export const { setUser } = counterSlice.actions
+export const { setUser } = userSlice.actions
 
-export default counterSlice.reducer
+export default userSlice.reducer

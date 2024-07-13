@@ -7,6 +7,16 @@
     --tg-color: #243c5a;
   }
 }
+
+@layer utilities {
+  .utils-wrapper-custom {
+    @apply h-auto flex flex-col space-y-4 mt-5 items-center text-[var(--tg-theme-text-color)];
+  }
+  .utils-container-custom {
+    @apply bg-[var(--tg-theme-bg-color)]  w-full text-center flex flex-col justify-center items-center p-4;
+  }
+}
+
 .bg-main {
   background-color: aqua;
 }
