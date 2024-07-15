@@ -4,12 +4,18 @@ import { useEffect, useState } from 'react'
 import { IPost } from '../../../../entities/type/post'
 import { GptMessage } from './gptMessage'
 import { getMessageGpt } from '../../../../feature/ajaxQuery/ajaxGetMessagesGpt'
-export const GPTModule = () => {
+
+type propsGptModel = {
+  selectUtile: string
+}
+export const GPTModule = ({ selectUtile }: propsGptModel) => {
   const user = useAppSelector((state) => state.counter)
-  const [messagesData, setMessagesData] = useState<IPost[] | null>(null)
-  const [messages, setMessages] = useState<[string, string][] | undefined>(
-   [["1","1"]]
+  const [messagesData, setMessagesData] = useState<IPost[] | []>([])
+  const [messages, setMessages] = useState<[string, string][] | []>(
+    []
+    //  [["1","1"]]
   )
+
   useEffect(() => {
     const messagesAjax = async () => {
       const messagesAjax = await getMessageGpt(user.login)
@@ -17,11 +23,8 @@ export const GPTModule = () => {
     }
     messagesAjax()
   }, [])
-
   const setMEssagesF = (side: string, message: string) => {
-    if (messages) setMessages((prevState)=>[...prevState, [side, message]])
-    else setMessages((prevState)=>[[side, message]])
-    console.log('messages', messages)
+    setMessages((prev) => [...prev, [side, message]])
   }
 
   return (
@@ -31,7 +34,12 @@ export const GPTModule = () => {
         messages={messages}
         setMessages={setMessages}
       />
-      <GPT messages={messages} setMessages={setMessages} setMEssagesF={setMEssagesF}/>
+      <GPT
+        setMEssagesF={setMEssagesF}
+        selectUtile={selectUtile}
+        setMessages={setMessages}
+        setMessagesData={setMessagesData}
+      />
     </>
   )
 }

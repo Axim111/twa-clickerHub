@@ -1,4 +1,4 @@
-import { ORC } from './utils/orc'
+import { ORC } from './utils/orc/orc'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { GPTModule } from './utils/gpt/gpt.model'
@@ -19,35 +19,36 @@ export const UtilsWrapper = () => {
       <div className='utils-wrapper-custom'>
         <div className='utils-container-custom'>
           <div onClick={() => setActive('GPT')}>GPT</div>
-          <div
-            className={clsx(
-              'text-[var(--tg-theme-destructive-text-color)]',
-              selectUtile != 'GPT' && 'hidden'
-            )}
-            onClick={() => closeActive()}
-          >
-            close GPT
-          </div>
-          <div
-            className={clsx('h-max-60 mt-5', selectUtile != 'GPT' && 'hidden')}
-          >
-            <GPTModule />
-          </div>
+          {selectUtile == 'GPT' && (
+            <>
+              <div
+                className={'text-[var(--tg-theme-destructive-text-color)]'}
+                onClick={() => closeActive()}
+              >
+                close GPT
+              </div>
+              <div className={'h-max-60 mt-5'}>
+                <GPTModule selectUtile={selectUtile} />
+              </div>
+            </>
+          )}
         </div>
+
         <div className='utils-container-custom'>
           <div onClick={() => setActive('ORC')}>ORC</div>
-          <div
-            className={clsx(
-              'text-[var(--tg-theme-destructive-text-color)]',
-              selectUtile != 'ORC' && 'hidden'
-            )}
-            onClick={() => closeActive()}
-          >
-            close ORC
-          </div>
-          <div className={clsx('h-10 mt-5', selectUtile != 'ORC' && 'hidden')}>
-            <ORC />
-          </div>
+          {selectUtile == 'ORC' && (
+            <>
+              <div
+                className={'text-[var(--tg-theme-destructive-text-color)]'}
+                onClick={() => closeActive()}
+              >
+                close ORC
+              </div>
+              <div className={'h-max-60 mt-5'}>
+                <ORC />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

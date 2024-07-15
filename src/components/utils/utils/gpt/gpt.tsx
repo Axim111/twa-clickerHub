@@ -2,22 +2,41 @@ import { useRef, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from '../../../../feature/reduxHook'
 import { submit } from '../../../../feature/ajaxQuery/ajaxSubmitGpt'
-
+import { deleteMessage } from '../../../../feature/ajaxQuery/deleteMessages'
+import { MdDeleteForever } from 'react-icons/md'
+import { IPost } from '../../../../entities/type/post'
+import { Dispatch, SetStateAction } from 'react'
 interface propsGPT {
-  messages: [string, string][] | undefined
-  setMessages: (messageList: [string, string][] | undefined) => void
   setMEssagesF: (side: string, message: string) => void
+  selectUtile: string
+  setMessages: Dispatch<SetStateAction<[string, string][] | []>>
+  setMessagesData: Dispatch<SetStateAction<IPost[] | []>>
 }
-export const GPT = ({ setMessages, messages, setMEssagesF }: propsGPT) => {
+export const GPT = ({
+  setMEssagesF,
+  selectUtile,
+  setMessages,
+  setMessagesData,
+}: propsGPT) => {
   const user = useAppSelector((state) => state.counter)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const [message, setMessage] = useState('')
 
-  const handleMessageChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setMessage(event.target.value)
+  const deleteFN = async () => {
+    if (user.login) {
+      setMessages([])
+      setMessagesData([])
+      await deleteMessage(user.login)
+      console.log(user.login)
+    }
   }
+  useEffect(() => {
+    if (selectUtile == 'GPT') {
+      if (textareaRef.current) {
+        textareaRef.current.scrollIntoView({ block: 'start' })
+      }
+    }
+  }, [selectUtile])
   useEffect(() => {
     if (textareaRef && textareaRef.current) {
       textareaRef.current.style.height = '0px'
@@ -30,6 +49,11 @@ export const GPT = ({ setMessages, messages, setMEssagesF }: propsGPT) => {
     }
   }, [message])
 
+  const handleMessageChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setMessage(event.target.value)
+  }
   return (
     <div className='w-full h-1/2'>
       <textarea
@@ -44,13 +68,6 @@ export const GPT = ({ setMessages, messages, setMEssagesF }: propsGPT) => {
       ></textarea>
       <button
         onClick={async () => {
-          if (messages != undefined) {
-            if (messages[messages.length - 1][0] == 'ME') {
-              return
-            }
-          }
-          // if (messages) setMessages([...messages, ['ME', message]])
-          // else setMessages([['ME', message]])
           setMEssagesF('ME', message)
           if (user.login) {
             const answer = (await submit(user.login, message, setMessage)).data
@@ -60,6 +77,7 @@ export const GPT = ({ setMessages, messages, setMEssagesF }: propsGPT) => {
       >
         submit
       </button>
+      <MdDeleteForever onClick={deleteFN} />
     </div>
   )
 }

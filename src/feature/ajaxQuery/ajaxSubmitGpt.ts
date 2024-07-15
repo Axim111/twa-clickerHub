@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const submit = async (
-  userId: number | null,
+  userId: number,
   message: string,
   setMessage: (text: string) => void
 ) => {
